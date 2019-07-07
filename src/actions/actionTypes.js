@@ -1,0 +1,2 @@
+export const SET_DATA = 'SET_DATA';
+export const SET_AVAILABLE_SQUARES = 'SET_AVAILABLE_SQUARES';
