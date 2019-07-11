@@ -13,8 +13,13 @@
   color: white;
 }
 
+.app_body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .Board {
-  margin: 0 auto;
   font-size: 2em;
   width: 22em;
   display: grid;

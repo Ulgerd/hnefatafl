@@ -1,2 +1,6 @@
+export const SET_INITIAL_DATA = 'SET_INITIAL_DATA';
 export const SET_DATA = 'SET_DATA';
 export const SET_AVAILABLE_SQUARES = 'SET_AVAILABLE_SQUARES';
+export const SET_NEW_GAME = 'SET_NEW_GAME';
+export const SET_TURN = 'SET_TURN';
+export const RETURN_GAME_TO_TURN = 'RETURN_GAME_TO_TURN';

@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 
 import {
   setData,
-  setAvailableSquares
+  setAvailableSquares,
+  setTurn
 } from '../actions/rootActions.js'
 import { removingPiece } from '../utils/removingPiece.js';
-
 
 class Board extends Component {
 
@@ -16,17 +16,22 @@ class Board extends Component {
     squares: [],
   }
 
-  onBeforeDragStart = result => {
-    let { droppableId } = result.source;
-    let { board } = this.props;
-  }
+  // onBeforeDragStart = result => {
+  //   let { droppableId } = result.source;
+  //   let { board } = this.props;
+  //   let a = availableSquares(droppableId, board)
+  //
+  //   this.setState({squares: a})
+  //
+  // }
 
   onDragEnd = result => {
 
     this.props.setAvailableSquares([])
 
     let { destination, source } = result
-    let { board, setData } = this.props;
+    let { board, setData, availableSquares, setTurn } = this.props;
+    let blockAll=false;
 
     if (!destination) {
       return
@@ -39,34 +44,35 @@ class Board extends Component {
       return
     }
 
-    if (board[destination.droppableId] !== 0) {
+    if (!availableSquares.some(squareNumber => +squareNumber === +destination.droppableId)) {
       return
+    }
+
+    if ( board[source.droppableId] === 'king' && board[destination.droppableId] === 'escape') {
+      blockAll = true;
+      alert('Победа защитников!')
     }
 
     let a = removingPiece(source.droppableId, destination.droppableId, board)
     let newBoard = [...a];
+    if (newBoard[source.droppableId] === 'king' && +source.droppableId === 60) {
+      newBoard[destination.droppableId] = 'throne'
+    }
+
+    if (newBoard[source.droppableId] === 'king' && +destination.droppableId === 60) {
+      newBoard[destination.droppableId] = 0
+    }
+
     [newBoard[source.droppableId], newBoard[destination.droppableId]] = [newBoard[destination.droppableId], newBoard[source.droppableId]];
-
+    setTurn(blockAll)
     setData(newBoard)
-  }
 
-  componentDidMount() {
-    let black_pieces = [3,4,5,6,7,16,33,43,44,54,55,56,64,65,66,76,77,87,104,113,114,115,116,117]
-    let white_pieces = [38,48,49,50,58,59,61,62,70,71,72,82]
-    let king = [60]
-    let board = new Array(121).fill(0).map((id, i) => {
-        if (black_pieces.indexOf(i) > -1) {return 'black'}
-        if (white_pieces.indexOf(i) > -1) {return 'white'}
-        if (king.indexOf(i) > -1) {return 'king'}
-        return 0;
-    })
-    this.props.setData(board)
   }
 
   render() {
     let {board} = this.props;
     return (
-      <DragDropContext onDragEnd={this.onDragEnd} onBeforeDragStart={this.onBeforeDragStart}>
+      <DragDropContext onDragEnd={this.onDragEnd}>
         <div className="Board">
             {board.map((id, i) => {
               return <Square
@@ -84,15 +90,14 @@ class Board extends Component {
 const mapStateToProps = store => {
   return {
     board: store.board,
-    black_pieces: store.black_pieces,
-    white_pieces: store.white_pieces,
-    king: store.king,
+    availableSquares: store.availableSquares,
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   setData: (board) => {dispatch(setData(board))},
-  setAvailableSquares: (squares) => {dispatch(setAvailableSquares(squares))}
+  setAvailableSquares: (squares) => {dispatch(setAvailableSquares(squares))},
+  setTurn: (blockAll) => {dispatch(setTurn(blockAll))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) (Board);

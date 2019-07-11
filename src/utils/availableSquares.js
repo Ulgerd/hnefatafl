@@ -9,28 +9,35 @@ export const availableSquares = (droppableId, board) => {
 
   let a = +droppableId - 1;
   while (a >= row[0]) {
-    if (board[a] !== 0) break;
+    if (board[droppableId] === 'king' && (board[a] !== 'throne' && board[a] !== 'escape' && board[a] !== 0)) break;
+    if (board[droppableId] !== 'king' && board[a] !== 0) break;
     result.push(a);
     a--
   }
 
   let b = +droppableId + 1;
   while (b <= row[1]) {
-    if (board[b] !== 0) break;
+    if (board[droppableId] === 'king' && (board[b] !== 'throne' && board[b] !== 'escape' && board[b] !== 0)) break;
+    if (board[droppableId] !== 'king' && board[b] !== 0) break;
+
     result.push(b);
     b++
   }
 
   let c = +droppableId - 11;
   while (c >= 0) {
-    if (board[c] !== 0) break;
+    if (board[droppableId] === 'king' && (board[c] !== 'throne' && board[c] !== 'escape' && board[c] !== 0)) break;
+    if (board[droppableId] !== 'king' && board[c] !== 0) break;
+
     result.push(c);
     c -=11
   }
 
   let d = +droppableId + 11;
   while (d <= 120) {
-    if (board[d] !== 0) break;
+    if (board[droppableId] === 'king' && (board[d] !== 'throne' && board[d] !== 'escape' && board[d] !== 0)) break;
+    if (board[droppableId] !== 'king' && board[d] !== 0) break;
+
     result.push(d);
     d +=11
   }
