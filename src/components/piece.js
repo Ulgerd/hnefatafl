@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Icons from '../data/icons.svg';
+import Icons from '../assets/SVG/icons.svg';
 import { Draggable } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 import {
@@ -9,12 +9,16 @@ import { availableSquares } from '../utils/availableSquares.js';
 
 class Piece extends Component {
   render() {
-    let {color, id, index, attackersTurn} = this.props;
-    if (color === 0) return null;
-    if (color === 'escape') return null;
-    if (color === 'throne') return null;
+    let {squareValue, id, index, attackersTurn} = this.props;
+    if (squareValue === 0) return null;
+    if (squareValue === 'escape') return null;
+    if (squareValue === 'throne') return null;
 
-    let dragDisabled = (attackersTurn==='All') ? true : ((attackersTurn && (color === 'white' || color === 'king')) || (!attackersTurn && color === 'black')) ? true : false;
+    let dragDisabled = (attackersTurn==='All') ?
+      true :
+      ((attackersTurn && (squareValue === 'white' || squareValue === 'king')) || (!attackersTurn && squareValue === 'black')) ?
+      true :
+      false;
 
     return (
       <Draggable
@@ -38,7 +42,7 @@ class Piece extends Component {
 
           return (
             <div
-              className={`${color==='black' ? 'piece gray':'piece brown'}${!snapshot.isDragging ? ' non-translatable' : ''}`}
+              className={`${squareValue==='black' ? 'piece gray':'piece brown'}${!snapshot.isDragging ? ' non-translatable' : ''}`}
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
@@ -47,11 +51,11 @@ class Piece extends Component {
               <div className ={'piece_base'}></div>
               <svg
                 className={'piece_image'}
-                fill= {color==='black' ? 'black' : color==='white' ? 'white': 'gold'}
+                fill= {squareValue==='black' ? 'black' : squareValue==='white' ? 'white': 'gold'}
                 width='50'
                 height='50'
               >
-                <use xlinkHref={`${Icons}#${color==='black' ? 'wolf':'crow'}`}/>
+                <use xlinkHref={`${Icons}#${squareValue==='black' ? 'wolf':'crow'}`}/>
               </svg>
             </div>
         );

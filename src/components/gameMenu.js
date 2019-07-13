@@ -34,8 +34,8 @@ class GameMenu extends Component {
           </thead>
           <tbody>
             {
-              history.map((arr, i) => {
-              let totalPieces = arr.reduce((allPieces, piece)=>{
+              history.map((obj, i) => {
+              let totalPieces = obj.board.reduce((allPieces, piece)=>{
                 if (piece in allPieces) {
                   allPieces[piece]++;
                 }
@@ -44,8 +44,8 @@ class GameMenu extends Component {
                 }
                 return allPieces;
               }, {})
-              return <tr onClick={() => this.props.returnGameToTurn(i)}>
-                  <td>{`Ход ${i}`}</td>
+              return <tr onClick={() => this.props.returnGameToTurn(obj.turn)}>
+                  <td>{`Ход ${obj.turn}`}</td>
                   <td>{totalPieces.black}</td>
                   <td>{totalPieces.white}</td>
                 </tr>

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Square from './square.js';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
-
 import {
   setData,
   setAvailableSquares,
@@ -11,19 +10,6 @@ import {
 import { removingPiece } from '../utils/removingPiece.js';
 
 class Board extends Component {
-
-  state = {
-    squares: [],
-  }
-
-  // onBeforeDragStart = result => {
-  //   let { droppableId } = result.source;
-  //   let { board } = this.props;
-  //   let a = availableSquares(droppableId, board)
-  //
-  //   this.setState({squares: a})
-  //
-  // }
 
   onDragEnd = result => {
 
@@ -54,6 +40,12 @@ class Board extends Component {
     }
 
     let a = removingPiece(source.droppableId, destination.droppableId, board)
+
+    if ( !(a.some(piece => piece === 'king')) ) {
+      blockAll = true;
+      alert('Победа нападающих!')
+    }
+
     let newBoard = [...a];
     if (newBoard[source.droppableId] === 'king' && +source.droppableId === 60) {
       newBoard[destination.droppableId] = 'throne'

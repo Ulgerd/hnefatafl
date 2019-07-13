@@ -3,18 +3,18 @@ import Header from './header.js';
 import Board from './board.js';
 import GameMenu from './gameMenu.js';
 import { connect } from 'react-redux';
+import { setInitialData } from '../actions/rootActions.js'
 import {
-  setInitialData
-} from '../actions/rootActions.js'
-import '../data/App.css';
+  black_pieces,
+  white_pieces,
+  king,
+  forbidden_squares
+} from '../data/gameConditions.js';
+import '../assets/CSS/app.css';
 
 class App extends Component {
 
   componentDidMount() {
-    let black_pieces = [3,4,5,6,7,16,33,43,44,54,55,56,64,65,66,76,77,87,104,113,114,115,116,117]
-    let white_pieces = [38,48,49,50,58,59,61,62,70,71,72,82]
-    let king = [60]
-    let forbidden_squares = [0, 10, 110, 120]
     let board = new Array(121).fill(0).map((id, i) => {
         if (black_pieces.indexOf(i) > -1) {return 'black'}
         if (white_pieces.indexOf(i) > -1) {return 'white'}
@@ -38,13 +38,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = store => {
-  return {
-  }
-}
-
 const mapDispatchToProps = dispatch => ({
   setInitialData: (board) => {dispatch(setInitialData(board))},
 })
 
-export default connect(mapStateToProps, mapDispatchToProps) (App);
+export default connect(null, mapDispatchToProps) (App);

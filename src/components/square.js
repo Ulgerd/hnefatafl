@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import Piece from './piece.js';
 import { Droppable } from 'react-beautiful-dnd'
 import { connect } from 'react-redux';
+import { onlyForKingSquares } from '../data/gameConditions.js';
 import styled from 'styled-components'
-import {
-} from '../actions/rootActions.js'
 
 const StyledSquare = styled.div`
   width: 2em;
   height: 2em;
   border: 1px solid black;
   background-color: ${props =>
-
     props.isDraggingOver ? 'skyblue' : props.squareColor }`
 
 class Square extends Component {
@@ -19,7 +17,7 @@ class Square extends Component {
   render () {
     let {squareID, squareValue, availableSquares} = this.props;
 
-    let onlyForKingSquare = [0, 10, 60, 110, 120].some( (forbidden_one) => {
+    let onlyForKingSquare = onlyForKingSquares.some( (forbidden_one) => {
       return (forbidden_one === squareID);
     }) // различное отображение для выходов и трона. Можно рассматривать board, там все нынче норм))
 
@@ -36,7 +34,7 @@ class Square extends Component {
           ref={provided.innerRef}
           isDraggingOver={snapshot.isDraggingOver}
         >
-          {<Piece color={squareValue} id={squareID+200} index = {1} squareID={squareID} />}
+          {<Piece squareValue={squareValue} id={squareID+200} index = {1} squareID={squareID} />}
           {provided.placeholder}
         </StyledSquare>
         )}
@@ -51,7 +49,4 @@ const mapStateToProps = store => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-})
-
-export default connect(mapStateToProps, mapDispatchToProps) (Square);
+export default connect(mapStateToProps, null) (Square);
