@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Piece from './piece.js';
+import Background from './background.js';
 import { Droppable } from 'react-beautiful-dnd'
 import { connect } from 'react-redux';
-import { onlyForKingSquares } from '../data/gameConditions.js';
+import { forbidden_squares } from '../data/gameConditions.js';
 import styled from 'styled-components'
 
 const StyledSquare = styled.div`
@@ -15,26 +16,29 @@ const StyledSquare = styled.div`
 class Square extends Component {
 
   render () {
-    let {squareID, squareValue, availableSquares} = this.props;
+    let { squareID, squareValue, availableSquares } = this.props;
 
-    let onlyForKingSquare = onlyForKingSquares.some( (forbidden_one) => {
+    let escape = forbidden_squares.some( (forbidden_one) => {
       return (forbidden_one === squareID);
-    }) // различное отображение для выходов и трона. Можно рассматривать board, там все нынче норм))
+    })
 
     let availableSquare = availableSquares.some( (availableSquare) => {
       return (availableSquare === squareID);
     })
 
+    let whatToGenerate = (squareValue === 'throne' || squareValue === 0 || squareValue === 'escape') ?
+      <Background squareValue={squareValue} /> : <Piece squareValue={squareValue} id={squareID+200} index = {1} squareID={squareID} />
+
     return (
       <Droppable droppableId={squareID+''} type="TASK" isDropDisabled={!availableSquare} >
       {(provided, snapshot) => (
         <StyledSquare
-          squareColor={availableSquare ? "green" : onlyForKingSquare ? "black" : 'DarkGoldenRod'}
+          squareColor={availableSquare ? 'green' : escape ? 'brown' : 'DarkGoldenRod'}
           {...provided.droppableProps}
           ref={provided.innerRef}
           isDraggingOver={snapshot.isDraggingOver}
         >
-          {<Piece squareValue={squareValue} id={squareID+200} index = {1} squareID={squareID} />}
+          {whatToGenerate}
           {provided.placeholder}
         </StyledSquare>
         )}
@@ -45,6 +49,7 @@ class Square extends Component {
 
 const mapStateToProps = store => {
   return {
+    board: store.board,
     availableSquares: store.availableSquares,
   }
 }

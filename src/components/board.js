@@ -2,67 +2,42 @@ import React, { Component } from 'react';
 import Square from './square.js';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
-import {
-  setData,
-  setAvailableSquares,
-  setTurn
-} from '../actions/rootActions.js'
+import { setData, setAvailableSquares, setTurn } from '../actions/rootActions.js'
 import { removingPiece } from '../utils/removingPiece.js';
+import { winningConditionsCheck } from '../utils/winningConditionsCheck.js'
+import { movementRejected } from '../utils/movementRejected.js'
+import { onlyForKingSquares } from '../data/gameConditions.js';
 
 class Board extends Component {
 
   onDragEnd = result => {
-
-    this.props.setAvailableSquares([])
-
     let { destination, source } = result
-    let { board, setData, availableSquares, setTurn } = this.props;
-    let blockAll=false;
+    let {
+      board,setData, availableSquares, setTurn, setAvailableSquares
+    } = this.props;
 
-    if (!destination) {
-      return
+    setAvailableSquares([]);
+
+    if ( movementRejected(destination, source, availableSquares) ) return;
+
+    let sourceID = result.source.droppableId;
+    let destinationID = result.destination.droppableId;
+
+    let newBoard = removingPiece(board, sourceID, destinationID);
+    let blockAll = winningConditionsCheck(newBoard, sourceID, destinationID);
+
+    if ( newBoard[sourceID] === 'king' ) {
+      if ( +sourceID === 60 ) newBoard[destinationID] = 'throne';
+      if ( onlyForKingSquares.indexOf(+destinationID) !== -1 ) newBoard[destinationID] = 0;
     }
 
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return
-    }
-
-    if (!availableSquares.some(squareNumber => +squareNumber === +destination.droppableId)) {
-      return
-    }
-
-    if ( board[source.droppableId] === 'king' && board[destination.droppableId] === 'escape') {
-      blockAll = true;
-      alert('Победа защитников!')
-    }
-
-    let a = removingPiece(source.droppableId, destination.droppableId, board)
-
-    if ( !(a.some(piece => piece === 'king')) ) {
-      blockAll = true;
-      alert('Победа нападающих!')
-    }
-
-    let newBoard = [...a];
-    if (newBoard[source.droppableId] === 'king' && +source.droppableId === 60) {
-      newBoard[destination.droppableId] = 'throne'
-    }
-
-    if (newBoard[source.droppableId] === 'king' && +destination.droppableId === 60) {
-      newBoard[destination.droppableId] = 0
-    }
-
-    [newBoard[source.droppableId], newBoard[destination.droppableId]] = [newBoard[destination.droppableId], newBoard[source.droppableId]];
+    [newBoard[sourceID], newBoard[destinationID]] = [newBoard[destinationID], newBoard[sourceID]];
     setTurn(blockAll)
     setData(newBoard)
-
   }
 
   render() {
-    let {board} = this.props;
+    let { board } = this.props;
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <div className="Board">

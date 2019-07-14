@@ -1,22 +1,10 @@
 import React, { Component } from 'react';
+import Icon from './icon.js';
+import { piecesCounter } from '../utils/piecesCounter.js'
 import { connect } from 'react-redux';
-
-import {
-  setData,
-  setNewGame,
-  returnGameToTurn
-} from '../actions/rootActions.js'
+import { setData, setNewGame, returnGameToTurn } from '../actions/rootActions.js'
 
 class GameMenu extends Component {
-
-  // state = {
-  //   squares: [],
-  // }
-
-  // onClick = (turn) => {
-  //   this.props.setNewGame();
-  // }
-
   render() {
     let { history } = this.props;
     return (
@@ -27,27 +15,23 @@ class GameMenu extends Component {
         <table>
           <thead>
             <tr>
-              <th>Номер хода</th>
-              <th>Нападающих</th>
-              <th>Защитников</th>
+              <th></th>
+              <th><Icon fill={'black'} svg={'wolf'} /></th>
+              <th><Icon fill={'black'} svg={'crow'} /></th>
             </tr>
           </thead>
           <tbody>
             {
               history.map((obj, i) => {
-              let totalPieces = obj.board.reduce((allPieces, piece)=>{
-                if (piece in allPieces) {
-                  allPieces[piece]++;
-                }
-                else {
-                  allPieces[piece] = 1;
-                }
-                return allPieces;
-              }, {})
-              return <tr onClick={() => this.props.returnGameToTurn(obj.turn)}>
+              let totalPieces = piecesCounter(obj);
+              return <tr
+                  className={'turnDisplay'}
+                  onClick={() => this.props.returnGameToTurn(obj.turn)}
+                  key={i}
+                >
                   <td>{`Ход ${obj.turn}`}</td>
                   <td>{totalPieces.black}</td>
-                  <td>{totalPieces.white}</td>
+                  <td>{`${totalPieces.white} + ${totalPieces.king}`}</td>
                 </tr>
               })
             }
@@ -61,7 +45,7 @@ class GameMenu extends Component {
 const mapStateToProps = store => {
   return {
     availableSquares: store.availableSquares,
-    history: store.history, // [[],[],[],]
+    history: store.history,
   }
 }
 

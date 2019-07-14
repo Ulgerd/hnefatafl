@@ -15,17 +15,26 @@ export function rootReducer(state = initialState, action) {
       return produce(state, draft => {
         draft.initialBoard = action.board;
         draft.board = action.board;
-        draft.history = [{turn: 0, board: draft.initialBoard}];
+        draft.history = [{
+          turn: 0,
+          board: draft.initialBoard
+        }];
       })
 
     case 'SET_DATA':
       return produce(state, draft => {
         draft.board = action.board;
         if (draft.history.length <= 9) {
-          draft.history.push({turn: draft.history[draft.history.length-1].turn+1, board: action.board});
+          draft.history.push({
+            turn: draft.history[draft.history.length-1].turn+1,
+            board: action.board
+          });
         } else {
           draft.history.shift();
-          draft.history.push({turn: draft.history[draft.history.length-1].turn+1, board: action.board});
+          draft.history.push({
+            turn: draft.history[draft.history.length-1].turn+1,
+            board: action.board
+          });
         }
       })
 
@@ -37,7 +46,10 @@ export function rootReducer(state = initialState, action) {
     case 'SET_NEW_GAME':
       return produce(state, draft => {
         draft.board = draft.initialBoard;
-        draft.history = [{turn: 0, board: draft.initialBoard}];
+        draft.history = [{
+          turn: 0,
+          board: draft.initialBoard
+        }];
         draft.attackersTurn = true;
       })
 
@@ -54,6 +66,7 @@ export function rootReducer(state = initialState, action) {
             draft.board = obj.board;
             draft.history = draft.history.slice(0, i+1)
           }
+          return null;
         })
       })
 

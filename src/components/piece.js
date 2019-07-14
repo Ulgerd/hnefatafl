@@ -1,22 +1,26 @@
 import React, { Component } from 'react';
-import Icons from '../assets/SVG/icons.svg';
+import Icon from './icon.js';
 import { Draggable } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
-import {
-  setAvailableSquares
-} from '../actions/rootActions.js'
+import { setAvailableSquares } from '../actions/rootActions.js'
 import { availableSquares } from '../utils/availableSquares.js';
 
 class Piece extends Component {
   render() {
-    let {squareValue, id, index, attackersTurn} = this.props;
-    if (squareValue === 0) return null;
-    if (squareValue === 'escape') return null;
-    if (squareValue === 'throne') return null;
+    let { squareValue, id, index, attackersTurn } = this.props;
 
-    let dragDisabled = (attackersTurn==='All') ?
-      true :
-      ((attackersTurn && (squareValue === 'white' || squareValue === 'king')) || (!attackersTurn && squareValue === 'black')) ?
+    let fill = squareValue==='black' ?
+      'black' :
+      squareValue==='king' ?
+      'gold' :
+      'white';
+    let svg = squareValue==='black' ? 'wolf': 'crow';
+    let base = squareValue==='black' ? 'piece gray': 'piece brown';
+
+    let dragDisabled = (
+      (attackersTurn && (squareValue === 'white' || squareValue === 'king')) ||
+      (!attackersTurn && squareValue === 'black') ||
+      attackersTurn==='All') ?
       true :
       false;
 
@@ -32,31 +36,26 @@ class Piece extends Component {
           if (!provided.dragHandleProps) {
             return;
           }
-          return event =>  {
+          return event => {
             event.persist()
-            let result = availableSquares(this.props.squareID, this.props.board);
-            this.props.setAvailableSquares(result);
+            setTimeout(() => {
+              let result = availableSquares(this.props.squareID, this.props.board);
+              this.props.setAvailableSquares(result);
+            }, 200)
             provided.dragHandleProps.onMouseDown(event);
           }
         })();
 
           return (
             <div
-              className={`${squareValue==='black' ? 'piece gray':'piece brown'}${!snapshot.isDragging ? ' non-translatable' : ''}`}
+              className={`${base}${!snapshot.isDragging ? ' non-translatable' : ''}`}
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
               onMouseDown ={onMouseDown}
             >
               <div className ={'piece_base'}></div>
-              <svg
-                className={'piece_image'}
-                fill= {squareValue==='black' ? 'black' : squareValue==='white' ? 'white': 'gold'}
-                width='50'
-                height='50'
-              >
-                <use xlinkHref={`${Icons}#${squareValue==='black' ? 'wolf':'crow'}`}/>
-              </svg>
+              <Icon fill={fill} svg={svg} />
             </div>
         );
         }}

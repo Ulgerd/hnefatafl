@@ -2,7 +2,7 @@ import { blackWinning } from './blackWinning.js';
 import { findRow } from './findRow.js';
 import { neighbourSquares } from '../data/gameConditions.js';
 
-export const removingPiece = (source, droppableId, board) => {
+export const removingPiece = (board, source, droppableId) => {
   let currPiece = board[source];
 
   let row = findRow(droppableId);
