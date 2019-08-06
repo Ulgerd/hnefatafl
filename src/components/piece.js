@@ -1,67 +1,81 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Icon from './icon.js';
 import { Draggable } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 import { setAvailableSquares } from '../actions/rootActions.js'
 import { availableSquares } from '../utils/availableSquares.js';
+import styled from 'styled-components'
 
-class Piece extends Component {
-  render() {
-    let { squareValue, id, index, attackersTurn } = this.props;
+const StyledPiece = styled.div`
+  position: relative;
+  border: 1px solid black;
+  border-radius: 100px;
+  width: 2em;
+  height: 2em;
+  background-color: brown;
+  ${({ base }) => base && `
+    background-color: gray;
+  `}
+  ${({ snapshot }) => snapshot && `
+    -webkit-transform: unset !important;
+    transform: unset !important;
+  `}
+`
 
-    let fill = squareValue==='black' ?
-      'black' :
-      squareValue==='king' ?
-      'gold' :
-      'white';
-    let svg = squareValue==='black' ? 'wolf': 'crow';
-    let base = squareValue==='black' ? 'piece gray': 'piece brown';
+function Piece (props) {
+  let { squareValue, id, index, attackersTurn } = props;
 
-    let dragDisabled = (
-      (attackersTurn && (squareValue === 'white' || squareValue === 'king')) ||
-      (!attackersTurn && squareValue === 'black') ||
-      attackersTurn==='All') ?
-      true :
-      false;
+  let fill = squareValue==='black' ?
+    'black' :
+    squareValue==='king' ?
+    'gold' :
+    'white';
+  let svg = squareValue==='black' ? 'wolf': 'crow';
 
-    return (
-      <Draggable
-        key={id}
-        draggableId={id}
-        index={index}
-        isDragDisabled={dragDisabled}
-      >
-      {(provided, snapshot) => {
-        const onMouseDown = (() => {
-          if (!provided.dragHandleProps) {
-            return;
-          }
-          return event => {
-            event.persist()
-            setTimeout(() => {
-              let result = availableSquares(this.props.squareID, this.props.board);
-              this.props.setAvailableSquares(result);
-            }, 200)
-            provided.dragHandleProps.onMouseDown(event);
-          }
-        })();
+  let dragDisabled = (
+    (attackersTurn && (squareValue === 'white' || squareValue === 'king')) ||
+    (!attackersTurn && squareValue === 'black') ||
+    attackersTurn==='All') ?
+    true :
+    false;
 
-          return (
-            <div
-              className={`${base}${!snapshot.isDragging ? ' non-translatable' : ''}`}
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              onMouseDown ={onMouseDown}
-            >
-              <div className ={'piece_base'}></div>
-              <Icon fill={fill} svg={svg} />
-            </div>
-        );
-        }}
-      </Draggable>
-    )
-  }
+  return (
+    <Draggable
+      key={id}
+      draggableId={id}
+      index={index}
+      isDragDisabled={dragDisabled}
+    >
+    {(provided, snapshot) => {
+      const onMouseDown = (() => {
+        if (!provided.dragHandleProps) {
+          return;
+        }
+        return event => {
+          event.persist()
+          setTimeout(() => {
+            let result = availableSquares(props.squareID, props.board);
+            props.setAvailableSquares(result);
+          }, 180)
+          provided.dragHandleProps.onMouseDown(event);
+        }
+      })();
+
+        return (
+          <StyledPiece
+            snapshot = {!snapshot.isDragging}
+            base = {squareValue==='black'}
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            onMouseDown ={onMouseDown}
+          >
+            <Icon fill={fill} svg={svg} />
+          </StyledPiece>
+      );
+      }}
+    </Draggable>
+  )
 }
 
 const mapStateToProps = store => {

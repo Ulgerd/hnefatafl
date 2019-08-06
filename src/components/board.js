@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Square from './square.js';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
@@ -7,51 +7,58 @@ import { removingPiece } from '../utils/removingPiece.js';
 import { winningConditionsCheck } from '../utils/winningConditionsCheck.js'
 import { movementRejected } from '../utils/movementRejected.js'
 import { onlyForKingSquares } from '../data/gameConditions.js';
+import styled from 'styled-components'
 
-class Board extends Component {
+const StyledBoard = styled.div`
+  font-size: 2em;
+  width: 22em;
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(11, 1fr);
+  grid-gap: 0;`
 
-  onDragEnd = result => {
+function Board (props) {
+
+  const onDragEnd = result => {
     let { destination, source } = result
     let {
       board,setData, availableSquares, setTurn, setAvailableSquares
-    } = this.props;
+    } = props;
 
     setAvailableSquares([]);
 
     if ( movementRejected(destination, source, availableSquares) ) return;
 
-    let sourceID = result.source.droppableId;
-    let destinationID = result.destination.droppableId;
+    let srcID = result.source.droppableId;
+    let destID = result.destination.droppableId;
 
-    let newBoard = removingPiece(board, sourceID, destinationID);
-    let blockAll = winningConditionsCheck(newBoard, sourceID, destinationID);
+    let newBoard = removingPiece(board, srcID, destID);
+    let blockAllMoves = winningConditionsCheck(newBoard, srcID, destID);
 
-    if ( newBoard[sourceID] === 'king' ) {
-      if ( +sourceID === 60 ) newBoard[destinationID] = 'throne';
-      if ( onlyForKingSquares.indexOf(+destinationID) !== -1 ) newBoard[destinationID] = 0;
+    if ( newBoard[srcID] === 'king' ) {
+      if ( +srcID === 60 ) newBoard[destID] = 'throne';
+      if ( onlyForKingSquares.indexOf(+destID) !== -1 ) newBoard[destID] = 0;
     }
 
-    [newBoard[sourceID], newBoard[destinationID]] = [newBoard[destinationID], newBoard[sourceID]];
-    setTurn(blockAll)
+    [newBoard[srcID], newBoard[destID]] = [newBoard[destID], newBoard[srcID]];
+    setTurn(blockAllMoves)
     setData(newBoard)
   }
 
-  render() {
-    let { board } = this.props;
-    return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <div className="Board">
-            {board.map((id, i) => {
-              return <Square
-                key={i}
-                squareID = {i}
-                squareValue={id}
-              />
-            })}
-        </div>
-      </DragDropContext>
-    )
-  }
+  let { board } = props;
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <StyledBoard>
+          {board.map((id, i) => {
+            return <Square
+              key={i}
+              squareID = {i}
+              squareValue={id}
+            />
+          })}
+      </StyledBoard>
+    </DragDropContext>
+  )
 }
 
 const mapStateToProps = store => {

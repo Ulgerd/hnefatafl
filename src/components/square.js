@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Piece from './piece.js';
 import Background from './background.js';
 import { Droppable } from 'react-beautiful-dnd'
@@ -13,38 +13,46 @@ const StyledSquare = styled.div`
   background-color: ${props =>
     props.isDraggingOver ? 'skyblue' : props.squareColor }`
 
-class Square extends Component {
+function Square (props) {
+  let { squareID, squareValue, availableSquares } = props;
 
-  render () {
-    let { squareID, squareValue, availableSquares } = this.props;
+  const escape = forbidden_squares.some( (forbidden_one) => {
+    return (forbidden_one === squareID);
+  })
 
-    let escape = forbidden_squares.some( (forbidden_one) => {
-      return (forbidden_one === squareID);
-    })
+  let availableSquare = availableSquares.some( (availableSquare) => {
+    return (availableSquare === squareID);
+  })
 
-    let availableSquare = availableSquares.some( (availableSquare) => {
-      return (availableSquare === squareID);
-    })
+  let whatToGenerate = (
+    [0,'throne','escape'].indexOf(squareValue) !== -1
+  ) ? <Background squareValue={squareValue} /> :
+      <Piece
+        id={squareID+200}
+        index = {1}
+        squareID={squareID}
+        squareValue={squareValue}
+      />
 
-    let whatToGenerate = (squareValue === 'throne' || squareValue === 0 || squareValue === 'escape') ?
-      <Background squareValue={squareValue} /> : <Piece squareValue={squareValue} id={squareID+200} index = {1} squareID={squareID} />
-
-    return (
-      <Droppable droppableId={squareID+''} type="TASK" isDropDisabled={!availableSquare} >
-      {(provided, snapshot) => (
-        <StyledSquare
-          squareColor={availableSquare ? 'green' : escape ? 'brown' : 'DarkGoldenRod'}
-          {...provided.droppableProps}
-          ref={provided.innerRef}
-          isDraggingOver={snapshot.isDraggingOver}
-        >
-          {whatToGenerate}
-          {provided.placeholder}
-        </StyledSquare>
-        )}
-      </Droppable>
-    )
-  }
+  return (
+    <Droppable
+      droppableId={squareID+''}
+      type="TASK"
+      isDropDisabled={!availableSquare}
+    >
+    {(provided, snapshot) => (
+      <StyledSquare
+        squareColor={availableSquare ? 'green' : escape ? 'brown' : 'DarkGoldenRod'}
+        {...provided.droppableProps}
+        ref={provided.innerRef}
+        isDraggingOver={snapshot.isDraggingOver}
+      >
+        {whatToGenerate}
+        {provided.placeholder}
+      </StyledSquare>
+      )}
+    </Droppable>
+  )
 }
 
 const mapStateToProps = store => {
