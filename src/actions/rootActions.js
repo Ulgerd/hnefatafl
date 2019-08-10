@@ -7,10 +7,11 @@ import {
   RETURN_GAME_TO_TURN
 } from './actionTypes';
 
-export function setInitialData(board) {
+export function setInitialData(board,avSquares) {
   return {
     type: SET_INITIAL_DATA,
-    board
+    board,
+    avSquares
   }
 }
 

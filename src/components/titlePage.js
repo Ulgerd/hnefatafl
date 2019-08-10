@@ -8,6 +8,7 @@ import {
   black_pieces, white_pieces, king, forbidden_squares
 } from '../data/gameConditions.js';
 import styled from 'styled-components'
+import { calcAvailableSquares } from '../utils/calcAvailableSquares.js';
 
 const StyledApp = styled.div`
   text-align: center;`
@@ -26,7 +27,12 @@ function TitlePage (props) {
         if ( forbidden_squares.indexOf(i) > -1 ) return 'escape';
         return 0;
     })
-    props.setInitialData(board)
+
+    let avSquares = board.map((elem, i) => {
+      return calcAvailableSquares(i, board)
+    })
+    props.setInitialData(board, avSquares)
+
   })
 
   return (
@@ -41,7 +47,7 @@ function TitlePage (props) {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setInitialData: (board) => {dispatch(setInitialData(board))},
+  setInitialData: (board, avSquares) => {dispatch(setInitialData(board, avSquares))},
 })
 
 export default connect(null, mapDispatchToProps) (TitlePage);

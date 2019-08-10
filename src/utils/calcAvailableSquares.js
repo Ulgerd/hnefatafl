@@ -1,6 +1,6 @@
 import { rows, neighbourSquares } from '../data/gameConditions.js';
 
-export const availableSquares = (droppableId, board) => {
+export const calcAvailableSquares = (droppableId, board) => {
   let row;
   let result=[];
 

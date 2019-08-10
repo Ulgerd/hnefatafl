@@ -18,19 +18,18 @@ const StyledBoard = styled.div`
   grid-gap: 0;`
 
 function Board (props) {
-
   const onDragEnd = result => {
     let { destination, source } = result
     let {
       board,setData, availableSquares, setTurn, setAvailableSquares
     } = props;
 
-    setAvailableSquares([]);
-
     if ( movementRejected(destination, source, availableSquares) ) return;
 
     let srcID = result.source.droppableId;
     let destID = result.destination.droppableId;
+
+    setAvailableSquares([])
 
     let newBoard = removingPiece(board, srcID, destID);
     let blockAllMoves = winningConditionsCheck(newBoard, srcID, destID);

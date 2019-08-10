@@ -3,15 +3,16 @@ import Icon from './icon.js';
 import { Draggable } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 import { setAvailableSquares } from '../actions/rootActions.js'
-import { availableSquares } from '../utils/availableSquares.js';
+import { calcAvailableSquares } from '../utils/calcAvailableSquares.js';
 import styled from 'styled-components'
 
 const StyledPiece = styled.div`
   position: relative;
   border: 1px solid black;
   border-radius: 100px;
-  width: 2em;
-  height: 2em;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  width: 1.8em;
+  height: 1.8em;
   background-color: brown;
   ${({ base }) => base && `
     background-color: gray;
@@ -22,8 +23,22 @@ const StyledPiece = styled.div`
   `}
 `
 
+const onMouseEnter = (squareID, board, setAvailableSquares, dragDisabled) => {
+  if (!dragDisabled) {
+    let result = calcAvailableSquares(squareID, board)
+    setAvailableSquares(result)
+  }
+}
+
+const onMouseLeave = (isDragging, setAvailableSquares) => {
+  if (!isDragging) {
+    setAvailableSquares([])
+  }
+}
+
+
 function Piece (props) {
-  let { squareValue, id, index, attackersTurn } = props;
+  let { squareValue, id, index, attackersTurn, squareID, board, setAvailableSquares} = props;
 
   let fill = squareValue==='black' ?
     'black' :
@@ -47,28 +62,15 @@ function Piece (props) {
       isDragDisabled={dragDisabled}
     >
     {(provided, snapshot) => {
-      const onMouseDown = (() => {
-        if (!provided.dragHandleProps) {
-          return;
-        }
-        return event => {
-          event.persist()
-          setTimeout(() => {
-            let result = availableSquares(props.squareID, props.board);
-            props.setAvailableSquares(result);
-          }, 180)
-          provided.dragHandleProps.onMouseDown(event);
-        }
-      })();
-
         return (
           <StyledPiece
+            onMouseEnter = {() => {onMouseEnter(squareID, board, setAvailableSquares, dragDisabled)}}
+            onMouseLeave = {() => {onMouseLeave(snapshot.isDragging, setAvailableSquares)}}
             snapshot = {!snapshot.isDragging}
             base = {squareValue==='black'}
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            onMouseDown ={onMouseDown}
           >
             <Icon fill={fill} svg={svg} />
           </StyledPiece>

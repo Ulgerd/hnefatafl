@@ -3,7 +3,7 @@ import produce from "immer";
 export const initialState = {
   initialBoard: [],
   board: [], //[0,black,white...]
-  availableSquares: [],
+  availableSquares: [], // [[],[],[]]
   history: [], // [{turn: 1, board: []}]
   attackersTurn: true,
 }
@@ -15,6 +15,7 @@ export function rootReducer(state = initialState, action) {
       return produce(state, draft => {
         draft.initialBoard = action.board;
         draft.board = action.board;
+        draft.availableSquares = action.avSquares;
         draft.history = [{
           turn: 0,
           board: draft.initialBoard

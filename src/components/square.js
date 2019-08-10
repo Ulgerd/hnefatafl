@@ -14,7 +14,7 @@ const StyledSquare = styled.div`
     props.isDraggingOver ? 'skyblue' : props.squareColor }`
 
 function Square (props) {
-  let { squareID, squareValue, availableSquares } = props;
+  let { squareID, squareValue, availableSquares} = props;
 
   const escape = forbidden_squares.some( (forbidden_one) => {
     return (forbidden_one === squareID);
