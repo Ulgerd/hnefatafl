@@ -9,6 +9,7 @@ import {
 } from '../data/gameConditions.js';
 import styled from 'styled-components'
 import { calcAvailableSquares } from '../utils/calcAvailableSquares.js';
+// import border from '../assets/boardBorder.svg'
 
 const StyledApp = styled.div`
   text-align: center;`

@@ -11,8 +11,8 @@ const StyledPiece = styled.div`
   border: 1px solid black;
   border-radius: 100px;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  width: 1.8em;
-  height: 1.8em;
+  width: 2em;
+  height: 2em;
   background-color: brown;
   ${({ base }) => base && `
     background-color: gray;

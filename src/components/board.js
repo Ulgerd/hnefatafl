@@ -8,14 +8,29 @@ import { winningConditionsCheck } from '../utils/winningConditionsCheck.js'
 import { movementRejected } from '../utils/movementRejected.js'
 import { onlyForKingSquares } from '../data/gameConditions.js';
 import styled from 'styled-components'
+import border from '../assets/boardBorder.svg'
+
+const StyledWrapper = styled.div`
+  background-image: url(${border});
+  background-color: DarkGoldenRod;
+  background-size: 100% 100%;
+  border-radius: 0.5em;
+  background-repeat: no-repeat;
+  position: relative;
+  font-size: 2em;
+  width: 23.3em;
+  height: 23.3em;`
 
 const StyledBoard = styled.div`
-  font-size: 2em;
-  width: 22em;
+  margin-top: 0.65em;
+  margin-left: 0.67em;
+  font-size: 1em;
+  position: absolute;
   display: grid;
   grid-template-columns: repeat(11, 1fr);
   grid-template-rows: repeat(11, 1fr);
   grid-gap: 0;`
+
 
 function Board (props) {
   const onDragEnd = result => {
@@ -46,16 +61,19 @@ function Board (props) {
 
   let { board } = props;
   return (
+
     <DragDropContext onDragEnd={onDragEnd}>
-      <StyledBoard>
-          {board.map((id, i) => {
-            return <Square
-              key={i}
-              squareID = {i}
-              squareValue={id}
-            />
-          })}
-      </StyledBoard>
+      <StyledWrapper src={border} alt="Logo">
+        <StyledBoard>
+            {board.map((id, i) => {
+              return <Square
+                key={i}
+                squareID = {i}
+                squareValue={id}
+              />
+            })}
+        </StyledBoard>
+      </StyledWrapper>
     </DragDropContext>
   )
 }
