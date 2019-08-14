@@ -2,15 +2,9 @@
   box-sizing: border-box;
 }
 
-
-@font-face {
-  font-family: Norse;
-  src: url(./assets/Norse.otf);
-}
-
 @font-face {
     font-family: 'Norse';
-    src: url('./assets/Norse.otf');
+    src: url('./fonts/Norse.otf');
 }
 
 body {
@@ -25,7 +19,7 @@ body {
   background: #ccc;
   padding: 0;
   margin: 0;
-  background-image: url('./assets/background.png');
+  background-image: url('./backgrounds/background.png');
   background-repeat: repeat;
 }
 

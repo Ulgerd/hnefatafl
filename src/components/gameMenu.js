@@ -4,7 +4,7 @@ import { piecesCounter } from '../utils/piecesCounter.js'
 import { connect } from 'react-redux';
 import { setData, setNewGame, returnGameToTurn } from '../actions/rootActions.js'
 import styled from 'styled-components'
-import border from '../assets/boardBorder2.svg'
+import border from '../assets/SVG/gameMenuBorder.svg'
 
 const StyledWrapper = styled.div`
   background-image: url(${border});

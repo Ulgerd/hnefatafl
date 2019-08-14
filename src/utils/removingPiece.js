@@ -19,15 +19,15 @@ export const removingPiece = (board, source, droppableId) => {
     //neighbour piece check
     if (neighbourPiece === 0) return null;
     if (neighbourPiece === currPiece) return null;
+    if (neighbPiecePos < bordVal[0] || neighbPiecePos > bordVal[1]) return null;
     if (currPiece === 'white' && neighbourPiece === 'king') return null;
     if (currPiece === 'king' && neighbourPiece === 'white') return null;
-    if (nboPiecePos < 0 || nboPiecePos > 120) return null;
     if (currPiece === 'black' && neighbourPiece === 'king') {
       blackWinning(newBoard, neighbPiecePos, num);
     }
     //next but one piece check
     if (nboPiece === 0) return null;
-    if (nboPiecePos < bordVal[0] && nboPiecePos > bordVal[1]) return null;
+    if (nboPiecePos < bordVal[0] || nboPiecePos > bordVal[1]) return null;
     if ([currPiece, 'throne', 'escape'].indexOf(nboPiece) !== -1) {
       newBoard[neighbPiecePos] = 0;
     };

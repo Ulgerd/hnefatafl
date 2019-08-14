@@ -8,7 +8,7 @@ import { winningConditionsCheck } from '../utils/winningConditionsCheck.js'
 import { movementRejected } from '../utils/movementRejected.js'
 import { onlyForKingSquares } from '../data/gameConditions.js';
 import styled from 'styled-components'
-import border from '../assets/boardBorder.svg'
+import border from '../assets/SVG/boardBorder.svg'
 
 const StyledWrapper = styled.div`
   background-image: url(${border});

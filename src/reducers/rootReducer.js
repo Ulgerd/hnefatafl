@@ -3,7 +3,7 @@ import produce from "immer";
 export const initialState = {
   initialBoard: [],
   board: [], //[0,black,white...]
-  availableSquares: [], // [[],[],[]]
+  availableSquares: [], // []
   history: [], // [{turn: 1, board: []}]
   attackersTurn: true,
 }
