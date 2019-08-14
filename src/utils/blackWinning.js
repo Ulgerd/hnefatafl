@@ -5,24 +5,15 @@ export const blackWinning = (board, kingID, prevNum) => {
   let row = findRow(kingID);
 
   let kingIsDead = neighbourSquares.every((sqNum) => {
+    let kingsNeighbSqNum = kingID+sqNum;
+    let kingsNeighbSq = board[kingsNeighbSqNum];
     let border = (sqNum === -11 || sqNum === 11) ? [0, 120] : row;
-    let dead;
-    if (sqNum === -11 || sqNum === -11) {
-      dead = (
-        (board[kingID + sqNum] !== 'white' && board[kingID + sqNum] !== 0) ||
-        prevNum+sqNum === 0)
-        ? true
-        : false;
-    } else if (kingID+sqNum >= border[0] && kingID+sqNum <= border[1]) {
-        dead = (
-          ['black', 'throne', 'escape'].indexOf(board[kingID + sqNum]) !== -1 ||
-          prevNum+sqNum === 0
-        )
-        ? true
-        : false;
-    } else {
-      dead = true;
-    }
+    let dead = false;
+
+    if (prevNum+sqNum === 0) dead = true;
+    if (kingsNeighbSqNum < border[0] && kingsNeighbSqNum > border[1]) dead = true;
+    if (['black', 'throne', 'escape'].indexOf(kingsNeighbSq) !== -1) dead = true;
+
     return dead;
   })
 

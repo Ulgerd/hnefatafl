@@ -1,26 +1,29 @@
-import { rows, neighbourSquares } from '../data/gameConditions.js';
+import { neighbourSquares } from '../data/gameConditions.js';
+import { findRow } from './findRow.js';
 
 export const calcAvailableSquares = (droppableId, board) => {
-  let row;
   let result=[];
-
-  rows.map((delta) => {
-    if (droppableId >= delta[0] &&
-        droppableId <= delta[1]) row = delta;
-    return null;
-  });
+  let row = findRow(droppableId);
+  let currPiece = board[droppableId];
 
   neighbourSquares.map((sqNum) => {
-    let a = +droppableId + sqNum;
-    while (sqNum === -11 ? (a >= 0) :
-           sqNum === -1 ? (a >= row[0]) :
-           sqNum === 1 ? (a <= row[1]) : (a <= 120)) {
-      if ( board[droppableId] === 'king' &&
-           ['white', 'black'].indexOf(board[a]) !== -1 ) break;
-      if (board[droppableId] !== 'king' &&
-          board[a] !== 0) break;
-      result.push(a);
-      a += sqNum;
+    let neighbSqNum = +droppableId + sqNum;
+    let limit;
+    if (sqNum === -11) limit = 0;
+    if (sqNum === -1) limit = row[0];
+    if (sqNum === 1) limit = row[1];
+    if (sqNum === 11) limit = 120;
+
+    while (sqNum < 0 ? (neighbSqNum >= limit) : (neighbSqNum <= limit)) {
+
+      if ( currPiece === 'king' &&
+           ['white', 'black'].indexOf(board[neighbSqNum]) !== -1 ) break;
+
+      if (currPiece !== 'king' &&
+          board[neighbSqNum] !== 0) break;
+
+      result.push(neighbSqNum);
+      neighbSqNum += sqNum;
     }
     return null;
   })

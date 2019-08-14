@@ -1,5 +1,6 @@
-export const winningConditionsCheck = (board, sourceID, destinationID) => {
-  if ( board[sourceID] === 'king' && board[destinationID] === 'escape') {
+export const winningConditionsCheck = (board, srcID, destID) => {
+  
+  if ( board[srcID] === 'king' && board[destID] === 'escape') {
     alert('Победа защитников!')
     return true;
   }
