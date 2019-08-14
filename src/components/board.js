@@ -12,7 +12,7 @@ import border from '../assets/boardBorder.svg'
 
 const StyledWrapper = styled.div`
   background-image: url(${border});
-  background-color: DarkGoldenRod;
+  background-color: #8e7618;
   background-size: 100% 100%;
   border-radius: 0.5em;
   background-repeat: no-repeat;

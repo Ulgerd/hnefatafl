@@ -25,7 +25,7 @@ export function rootReducer(state = initialState, action) {
     case 'SET_DATA':
       return produce(state, draft => {
         draft.board = action.board;
-        if (draft.history.length <= 9) {
+        if (draft.history.length <= 14) {
           draft.history.push({
             turn: draft.history[draft.history.length-1].turn+1,
             board: action.board

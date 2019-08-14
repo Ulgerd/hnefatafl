@@ -8,14 +8,13 @@ import border from '../assets/boardBorder2.svg'
 
 const StyledWrapper = styled.div`
   background-image: url(${border});
-  background-color: DarkGoldenRod;
+  background-color: white;
   background-size: 100% 100%;
   border-radius: 1em;
   background-repeat: no-repeat;
   position: relative;
   font-size: 1em;
-  width: 18em;
-  `
+  width: 18em;`
 
 const StyledGameMenu = styled.div`
   margin-top:1em;
@@ -25,7 +24,6 @@ const StyledGameMenu = styled.div`
   height: 95%;
   font-family: 'Norse';
   font-size:1.2em;
-  border: 1px solid black;
   background-color: white`
 
 const StyledDisplay = styled.tr`
@@ -40,8 +38,6 @@ const StyledButton = styled.button`
 
 const StyledTable = styled.table`
   width: 100%;`
-
-
 
 function GameMenu(props) {
   let { history, setNewGame } = props;

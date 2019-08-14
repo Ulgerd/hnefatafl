@@ -9,7 +9,6 @@ const StyledH1 = styled.h1`
   margin: 0;
   `
 
-
 export default function Header() {
   return (
     <StyledHeader>
