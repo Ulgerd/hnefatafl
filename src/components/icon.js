@@ -9,8 +9,8 @@ export default function Icon(props) {
   return (
     <StyledPieceImage
         fill= {props.fill}
-        width='50'
-        height='50'
+        width={props.width || '50'}
+        height={props.height || '50'}
       >
         <use xlinkHref={`${Icons}#${props.svg}`}/>
     </StyledPieceImage>

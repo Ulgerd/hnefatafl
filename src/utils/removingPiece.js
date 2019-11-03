@@ -18,6 +18,7 @@ export const removingPiece = (board, source, droppableId) => {
 
     //neighbour piece check
     if (neighbourPiece === 0) return null;
+    if (neighbourPiece === 'throne') return null;
     if (neighbourPiece === currPiece) return null;
     if (neighbPiecePos < bordVal[0] || neighbPiecePos > bordVal[1]) return null;
     if (currPiece === 'white' && neighbourPiece === 'king') return null;

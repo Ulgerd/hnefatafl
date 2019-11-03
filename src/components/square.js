@@ -11,7 +11,7 @@ const StyledSquare = styled.div`
   height: 2em;
   border: 1px solid black;
   background-color: ${props =>
-    props.isDraggingOver ? 'skyblue' : props.squareColor }`
+    props.isDraggingOver ? 'rgba(135,206,235,0.6)' : props.squareColor }`
 
 function Square (props) {
   let { squareID, squareValue, availableSquares} = props;
@@ -42,7 +42,9 @@ function Square (props) {
     >
     {(provided, snapshot) => (
       <StyledSquare
-        squareColor={availableSquare ? 'green' : escape ? 'brown' : 'DarkGoldenRod'}
+        squareColor={availableSquare ? 'rgba(0, 201, 8, 0.65)' :
+                     escape ? 'rgba(166, 0, 0, 0.75)' :
+                     'rgba(184, 134, 11,0.4)'}
         {...provided.droppableProps}
         ref={provided.innerRef}
         isDraggingOver={snapshot.isDraggingOver}

@@ -9,6 +9,7 @@ import { movementRejected } from '../utils/movementRejected.js'
 import { onlyForKingSquares } from '../data/gameConditions.js';
 import styled from 'styled-components'
 import border from '../assets/SVG/boardBorder.svg'
+import woodTexture from '../assets/backgrounds/wood.jpg'
 
 const StyledWrapper = styled.div`
   background-image: url(${border});
@@ -22,8 +23,9 @@ const StyledWrapper = styled.div`
   height: 23.3em;`
 
 const StyledBoard = styled.div`
+  background-image: url(${woodTexture});
   margin-top: 0.65em;
-  margin-left: 0.67em;
+  margin-left: 0.64em;
   font-size: 1em;
   position: absolute;
   display: grid;

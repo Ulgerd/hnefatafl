@@ -11,8 +11,14 @@ const StyledPiece = styled.div`
   border: 1px solid black;
   border-radius: 100px;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  width: 2em;
-  height: 2em;
+  width: 1.9em;
+  height: 1.9em;
+  margin: 0 auto;
+  top: 1.5%;
+  box-shadow:
+   inset rgba(0,0,0,.5) -3px -3px 8px,
+   inset rgba(255,255,255,.9) 3px 3px 8px,
+   rgba(0,0,0,.8) 3px 3px 8px -3px;
   background-color: brown;
   ${({ base }) => base && `
     background-color: gray;
@@ -36,6 +42,17 @@ const onMouseLeave = (isDragging, setAvailableSquares) => {
   }
 }
 
+function centerPiece(style, snapshot) {
+  if (!snapshot.isDropAnimating) {
+    return style;
+  }
+  const { moveTo } = snapshot.dropAnimation;
+  const translate = `translate(${moveTo.x+1}px, ${moveTo.y+1}px)`;
+  return {
+    ...style,
+    transform: `${translate}`,
+  };
+}
 
 function Piece (props) {
   let { squareValue, id, index, attackersTurn, squareID, board, setAvailableSquares} = props;
@@ -71,8 +88,9 @@ function Piece (props) {
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
+            style={centerPiece(provided.draggableProps.style, snapshot)}
           >
-            <Icon fill={fill} svg={svg} />
+            <Icon fill={fill} svg={svg} width='45' height='45' />
           </StyledPiece>
       );
       }}
