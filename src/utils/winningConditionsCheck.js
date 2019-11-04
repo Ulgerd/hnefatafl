@@ -1,13 +1,11 @@
 export const winningConditionsCheck = (board, srcID, destID) => {
-  
+
   if ( board[srcID] === 'king' && board[destID] === 'escape') {
-    alert('Победа защитников!')
-    return true;
+    return 'Defenders win!';
   }
 
   if ( !(board.some(piece => piece === 'king')) ) {
-    alert('Победа нападающих!')
-    return true;
+    return 'Attackers win!';
   }
   return false;
 }

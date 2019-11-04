@@ -1,7 +1,11 @@
 import { findRow } from './findRow.js';
 import { neighbourSquares } from '../data/gameConditions.js';
 
-export const blackWinning = (board, kingID, prevNum) => {
+/*
+  Checking, if king should be removed. 
+*/
+
+export const removeKing = (board, kingID, prevNum) => {
   let row = findRow(kingID);
 
   let kingIsDead = neighbourSquares.every((sqNum) => {

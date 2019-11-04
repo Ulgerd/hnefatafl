@@ -7,6 +7,11 @@
     src: url('./fonts/Norse.otf');
 }
 
+h3 {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

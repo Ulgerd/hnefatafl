@@ -1,10 +1,12 @@
 import React from 'react';
-import Icon from './icon.js';
-import { piecesCounter } from '../utils/piecesCounter.js'
+import Icon from '../icon.js';
+import { piecesCounter } from '../../utils/piecesCounter.js'
 import { connect } from 'react-redux';
-import { setData, setNewGame, returnGameToTurn } from '../actions/rootActions.js'
+import { setData, setNewGame, returnGameToTurn } from '../../actions/rootActions.js'
 import styled from 'styled-components'
-import border from '../assets/SVG/gameMenuBorder.svg'
+import border from '../../assets/SVG/gameMenuBorder.svg'
+import GameRules from '../../data/gameRules.js'
+import Popup from "reactjs-popup";
 
 const StyledWrapper = styled.div`
   background-image: url(${border});
@@ -29,9 +31,14 @@ const StyledGameMenu = styled.div`
 const StyledDisplay = styled.tr`
   cursor: pointer;`
 
+const StyledButtonWrapper = styled.div`
+  margin: 1em 0.5em 1.5em;
+`
+
 const StyledButton = styled.button`
   font-family: 'Norse';
-  margin: 1em 0 1.5em;
+  margin: 0.2em 0.5em;
+  font-weight: bold;
   font-size:1em;
   width: 6em;
   cursor: pointer;`
@@ -39,13 +46,22 @@ const StyledButton = styled.button`
 const StyledTable = styled.table`
   width: 100%;`
 
+const GameRulesPopup = () => (
+  <Popup trigger={<StyledButton>Game Rules</StyledButton>} modal closeOnDocumentClick>
+    <GameRules />
+  </Popup>
+);
+
 function GameMenu(props) {
   let { history, setNewGame } = props;
   return (
     <StyledWrapper>
       <StyledGameMenu>
         <h2>Game menu</h2>
-        <StyledButton onClick ={setNewGame}>New game</StyledButton>
+        <StyledButtonWrapper>
+          <StyledButton onClick ={setNewGame}>New game</StyledButton>
+          <GameRulesPopup />
+        </StyledButtonWrapper>
         <h3>History</h3>
         <StyledTable>
           <thead>

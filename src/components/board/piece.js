@@ -1,9 +1,9 @@
 import React from 'react';
-import Icon from './icon.js';
+import Icon from '../icon.js';
 import { Draggable } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
-import { setAvailableSquares } from '../actions/rootActions.js'
-import { calcAvailableSquares } from '../utils/calcAvailableSquares.js';
+import { setAvailableSquares } from '../../actions/rootActions.js'
+import { calcAvailableSquares } from '../../utils/calcAvailableSquares.js';
 import styled from 'styled-components'
 
 const StyledPiece = styled.div`

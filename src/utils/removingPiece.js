@@ -1,6 +1,10 @@
-import { blackWinning } from './blackWinning.js';
+import { removeKing } from './removeKing.js';
 import { findRow } from './findRow.js';
 import { neighbourSquares } from '../data/gameConditions.js';
+
+/*
+  Checking, if any piece should be removed. 
+*/
 
 export const removingPiece = (board, source, droppableId) => {
   let currPiece = board[source];
@@ -24,8 +28,9 @@ export const removingPiece = (board, source, droppableId) => {
     if (currPiece === 'white' && neighbourPiece === 'king') return null;
     if (currPiece === 'king' && neighbourPiece === 'white') return null;
     if (currPiece === 'black' && neighbourPiece === 'king') {
-      blackWinning(newBoard, neighbPiecePos, num);
+      removeKing(newBoard, neighbPiecePos, num);
     }
+
     //next but one piece check
     if (nboPiece === 0) return null;
     if (nboPiecePos < bordVal[0] || nboPiecePos > bordVal[1]) return null;

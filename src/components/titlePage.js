@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from './header.js';
-import Board from './board.js';
-import GameMenu from './gameMenu.js';
+import Board from './board/board.js';
+import GameMenu from './menu/gameMenu.js';
 import { connect } from 'react-redux';
 import { setInitialData } from '../actions/rootActions.js'
 import {

@@ -3,7 +3,7 @@ import Piece from './piece.js';
 import Background from './background.js';
 import { Droppable } from 'react-beautiful-dnd'
 import { connect } from 'react-redux';
-import { forbidden_squares } from '../data/gameConditions.js';
+import { forbidden_squares } from '../../data/gameConditions.js';
 import styled from 'styled-components'
 
 const StyledSquare = styled.div`
