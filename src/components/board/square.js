@@ -14,6 +14,7 @@ const StyledSquare = styled.div`
     props.isDraggingOver ? 'rgba(135,206,235,0.6)' : props.squareColor }`
 
 function Square (props) {
+
   let { squareID, squareValue, availableSquares} = props;
 
   const escape = forbidden_squares.some( (forbidden_one) => {
@@ -28,8 +29,8 @@ function Square (props) {
     [0,'throne','escape'].indexOf(squareValue) !== -1
   ) ? <Background squareValue={squareValue} /> :
       <Piece
-        id={squareID+200}
-        index = {1}
+        id={squareID}
+        index = {squareID}
         squareID={squareID}
         squareValue={squareValue}
       />

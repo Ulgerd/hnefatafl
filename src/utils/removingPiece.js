@@ -3,7 +3,7 @@ import { findRow } from './findRow.js';
 import { neighbourSquares } from '../data/gameConditions.js';
 
 /*
-  Checking, if any piece should be removed. 
+  Checking, if any piece should be removed.
 */
 
 export const removingPiece = (board, source, droppableId) => {
@@ -30,13 +30,15 @@ export const removingPiece = (board, source, droppableId) => {
     if (currPiece === 'black' && neighbourPiece === 'king') {
       removeKing(newBoard, neighbPiecePos, num);
     }
-
     //next but one piece check
     if (nboPiece === 0) return null;
     if (nboPiecePos < bordVal[0] || nboPiecePos > bordVal[1]) return null;
-    if ([currPiece, 'throne', 'escape'].indexOf(nboPiece) !== -1) {
-      newBoard[neighbPiecePos] = 0;
+
+    if ([currPiece, 'throne', 'escape'].indexOf(nboPiece) !== -1 &&
+        neighbourPiece !== 'king') {
+          newBoard[neighbPiecePos] = 0;
     };
+
     if ((nboPiece === 'king' && currPiece==='white') ||
         (nboPiece === 'white' && currPiece==='king')) {
       newBoard[neighbPiecePos] = 0;

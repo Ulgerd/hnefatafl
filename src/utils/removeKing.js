@@ -2,7 +2,7 @@ import { findRow } from './findRow.js';
 import { neighbourSquares } from '../data/gameConditions.js';
 
 /*
-  Checking, if king should be removed. 
+  Checking, if king should be removed.
 */
 
 export const removeKing = (board, kingID, prevNum) => {
@@ -17,7 +17,6 @@ export const removeKing = (board, kingID, prevNum) => {
     if (prevNum+sqNum === 0) dead = true;
     if (kingsNeighbSqNum < border[0] && kingsNeighbSqNum > border[1]) dead = true;
     if (['black', 'throne', 'escape'].indexOf(kingsNeighbSq) !== -1) dead = true;
-
     return dead;
   })
 
